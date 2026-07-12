@@ -13,11 +13,11 @@ check_disk_usage(){
     if [ $DISK_USAGE -gt $DISK_THRESHOLD ]
     then
         echo "$CURRENT_DATE [WARN] Disk Usage $DISK_USAGE% exceeds Threshold $DISK_THRESHOLD%" >> $LOG_FILE
-        echo "DISK_USAGE:$DISK_USAGE"
+        echo "DISK_USAGE:$DISK_USAGE%"
         echo "Status=WARN"
     else
         echo "$CURRENT_DATE [OK] Disk Usage $DISK_USAGE% | Threshold $DISK_THRESHOLD%" >> $LOG_FILE
-        echo "DISK_USAGE:$DISK_USAGE"
+        echo "DISK_USAGE:$DISK_USAGE%"
         echo "Status=OK"
     fi
 }
@@ -30,15 +30,33 @@ check_memory_usage(){
     if [ $MEMORY_USAGE -gt $MEM_THRESHOLD ]
     then
         echo "$CURRENT_DATE [WARN] Memory Usage $MEMORY_USAGE% exceeds Threshold $MEM_THRESHOLD%" >> $LOG_FILE
-        echo "Memory Usage: $MEMORY_USAGE"
+        echo "Memory Usage: $MEMORY_USAGE%"
         echo "Status: WARN"
     else
         echo "$CURRENT_DATE [OK] Memory Usage $MEMORY_USAGE% | Threshold $MEM_THRESHOLD%" >> $LOG_FILE
-        echo "Memory Usage: $MEMORY_USAGE"
+        echo "Memory Usage: $MEMORY_USAGE%"
         echo "Status: OK"
     fi   
     
 }
 check_memory_usage
+
+check_CPU_load(){
+    CPU_USAGE=$(mpstat | grep all | awk '{printf "%.0f\n",(100-$12)}')
+    initialize_variables
+
+    if [ $CPU_USAGE -gt $CPU_THRESHOLD ]
+    then
+        echo "$CURRENT_DATE [WARN] CPU Usage $CPU_USAGE% exceeds Threshold $CPU_THRESHOLD%" >> $LOG_FILE
+        echo "CPU Usage: $CPU_USAGE%"
+        echo "Status: WARN" 
+    else
+        echo "$CURRENT_DATE [WARN] CPU Usage $CPU_USAGE% | Threshold $CPU_THRESHOLD%" >> $LOG_FILE
+        echo "CPU Usage: $CPU_USAGE%"
+        echo "Status: OK"
+    fi
+}
+check_CPU_load
+
 
 
