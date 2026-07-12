@@ -21,8 +21,15 @@ check_disk_usage
 
 check_memory_usage(){
     MEMORY_USAGE=$(free -m | grep Mem | awk '{printf "%.0f\n", ($3/$2)*100}')
+    source ../config/syspilot.conf
 
-    echo $MEMORY_USAGE%
+    if [ $MEMORY_USAGE -gt $MEM_THRESHOLD ]
+    then
+        echo "WARN"
+    else
+        echo "OK"
+    fi   
+    
 }
 check_memory_usage
 
