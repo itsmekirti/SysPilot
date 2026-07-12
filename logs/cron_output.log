@@ -33,3 +33,73 @@ PID      CPU%    MEM%    COMMAND
 578      0.5      2.2      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
 
 Health Monitor Checkup Completed
+==================================================
+
+        SYSPILOT HEALTH MONITOR REPORT            
+
+==================================================
+
+    DISK USAGE   
+
+DISK_USAGE:1%
+Status=OK
+--------------------------------
+
+    MEMORY USAGE   
+
+Memory Usage: 29%
+Status: OK
+--------------------------------
+
+   CPU USAGE   
+
+CPU Usage: 5%
+Status: OK
+--------------------------------
+
+    Top 5 Memory Processes      
+
+PID      CPU%    MEM%    COMMAND
+--------------------------------
+612      3.5      5.8      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+1121     3.4      4.7      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+541      0.5      3.3      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+1165     0.0      2.3      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+578      0.5      2.2      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+
+Health Monitor Checkup Completed
+==================================================
+
+        SYSPILOT HEALTH MONITOR REPORT            
+
+==================================================
+
+    DISK USAGE   
+
+DISK_USAGE:1%
+Status=OK
+--------------------------------
+
+    MEMORY USAGE   
+
+Memory Usage: 29%
+Status: OK
+--------------------------------
+
+   CPU USAGE   
+
+CPU Usage: 5%
+Status: OK
+--------------------------------
+
+    Top 5 Memory Processes      
+
+PID      CPU%    MEM%    COMMAND
+--------------------------------
+612      3.5      5.8      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+1121     3.4      4.7      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+541      0.5      3.3      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+1165     0.0      2.3      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+578      0.5      2.2      /home/kirti/.vscode-server/bin/4fe60c8b1cdac1c4c174f2fb180d0d758272d713/node
+
+Health Monitor Checkup Completed

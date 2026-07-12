@@ -1,12 +1,5 @@
 #!/bin/bash
 
-hello() {
-    echo "hello"
-}
-hello
+CPU_USAGE=$(mpstat | grep all | awk '{printf "%.0f\n",(100-$12)}')
 
-welcome() {
-    echo "welcome to syspilot"
-}
-
-welcome
+echo $CPU_USAGE
