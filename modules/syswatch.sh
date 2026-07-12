@@ -25,9 +25,11 @@ check_memory_usage(){
 
     if [ $MEMORY_USAGE -gt $MEM_THRESHOLD ]
     then
-        echo "WARN"
+        echo "Memory Usage: $MEMORY_USAGE"
+        echo "Status: WARN"
     else
-        echo "OK"
+        echo "Memory Usage: $MEMORY_USAGE"
+        echo "Status: OK"
     fi   
     
 }
