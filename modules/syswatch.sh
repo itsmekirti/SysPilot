@@ -8,11 +8,11 @@ check_disk_usage(){
 
     if [ $DISK_USAGE -gt $DISK_THRESHOLD ]
     then
-        echo ""$CURRENT_DATE" [WARN] "$DISK_USAGE%" THRESHOLD "$DISK_THRESHOLD"" >> "$LOG_FILE"
+        echo "$CURRENT_DATE [WARN] Disk Usage $DISK_USAGE% exceeds Threshold $DISK_THRESHOLD%" >> $LOG_FILE
         echo "DISK_USAGE:$DISK_USAGE"
         echo "Status=WARN"
     else
-        echo ""$CURRENT_DATE" [OK] "$DISK_USAGE%" THRESHOLD "$DISK_THRESHOLD"" >> "$LOG_FILE"
+        echo "$CURRENT_DATE [OK] Disk Usage $DISK_USAGE% exceeds Threshold $DISK_THRESHOLD%" >> $LOG_FILE
         echo "DISK_USAGE:$DISK_USAGE"
         echo "Status=OK"
     fi
@@ -23,14 +23,15 @@ check_memory_usage(){
     MEMORY_USAGE=$(free -m | grep Mem | awk '{printf "%.0f\n", ($3/$2)*100}')
     source ../config/syspilot.conf
     CURRENT_DATE=$(date "+%Y-%m-%d %I:%M:%S %p")
+    LOG_FILE=../logs/syswatch.log
 
     if [ $MEMORY_USAGE -gt $MEM_THRESHOLD ]
     then
-        echo "$CURRENT_DATE [WARN] Memory Usage $MEMORY_USAGE% exceeds Threshold $MEM_THRESHOLD%"
+        echo "$CURRENT_DATE [WARN] Memory Usage $MEMORY_USAGE% exceeds Threshold $MEM_THRESHOLD%" >> $LOG_FILE
         echo "Memory Usage: $MEMORY_USAGE"
         echo "Status: WARN"
     else
-        echo "$CURRENT_DATE [OK] Memory Usage $MEMORY_USAGE% exceeds Threshold $MEM_THRESHOLD%"
+        echo "$CURRENT_DATE [OK] Memory Usage $MEMORY_USAGE% exceeds Threshold $MEM_THRESHOLD%" >> $LOG_FILE
         echo "Memory Usage: $MEMORY_USAGE"
         echo "Status: OK"
     fi   
