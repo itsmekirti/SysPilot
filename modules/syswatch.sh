@@ -9,8 +9,12 @@ check_disk_usage(){
     if [ $DISK_USAGE -gt $DISK_THRESHOLD ]
     then
         echo ""$CURRENT_DATE" [WARN] "$DISK_USAGE%" THRESHOLD "$DISK_THRESHOLD"" >> "$LOG_FILE"
+        echo "DISK_USAGE:$DISK_USAGE"
+        echo "Status=WARN"
     else
         echo ""$CURRENT_DATE" [OK] "$DISK_USAGE%" THRESHOLD "$DISK_THRESHOLD"" >> "$LOG_FILE"
+        echo "DISK_USAGE:$DISK_USAGE"
+        echo "Status=OK"
     fi
 }
 check_disk_usage
