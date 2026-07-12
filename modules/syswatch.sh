@@ -12,7 +12,7 @@ check_disk_usage(){
         echo "DISK_USAGE:$DISK_USAGE"
         echo "Status=WARN"
     else
-        echo "$CURRENT_DATE [OK] Disk Usage $DISK_USAGE% exceeds Threshold $DISK_THRESHOLD%" >> $LOG_FILE
+        echo "$CURRENT_DATE [OK] Disk Usage $DISK_USAGE% | Threshold $DISK_THRESHOLD%" >> $LOG_FILE
         echo "DISK_USAGE:$DISK_USAGE"
         echo "Status=OK"
     fi
@@ -31,11 +31,12 @@ check_memory_usage(){
         echo "Memory Usage: $MEMORY_USAGE"
         echo "Status: WARN"
     else
-        echo "$CURRENT_DATE [OK] Memory Usage $MEMORY_USAGE% exceeds Threshold $MEM_THRESHOLD%" >> $LOG_FILE
+        echo "$CURRENT_DATE [OK] Memory Usage $MEMORY_USAGE% | Threshold $MEM_THRESHOLD%" >> $LOG_FILE
         echo "Memory Usage: $MEMORY_USAGE"
         echo "Status: OK"
     fi   
     
 }
 check_memory_usage
+
 
