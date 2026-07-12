@@ -1,4 +1,13 @@
 #!/bin/bash
+echo "=================================================="
+echo
+echo "        SYSPILOT HEALTH MONITOR REPORT            "
+echo
+echo "=================================================="
+echo
+echo "    DISK USAGE   "
+echo
+
 initialize_variables(){
     source ../config/syspilot.conf
     CURRENT_DATE=$(date "+%Y-%m-%d %I:%M:%S %p")
@@ -22,6 +31,10 @@ check_disk_usage(){
     fi
 }
 check_disk_usage
+echo "--------------------------------"
+echo
+echo "    MEMORY USAGE   "
+echo
 
 check_memory_usage(){
     MEMORY_USAGE=$(free -m | grep Mem | awk '{printf "%.0f\n", ($3/$2)*100}')
@@ -40,7 +53,10 @@ check_memory_usage(){
     
 }
 check_memory_usage
-
+echo "--------------------------------"
+echo
+echo "   CPU USAGE   "
+echo
 check_CPU_load(){
     CPU_USAGE=$(mpstat | grep all | awk '{printf "%.0f\n",(100-$12)}')
     initialize_variables
@@ -56,17 +72,22 @@ check_CPU_load(){
         echo "Status: OK"
    fi
 }
-check_Top5_Resource_Consuming_Processes(){
+check_CPU_load
+echo "--------------------------------"
+echo
+check_top_processes(){
     TOP5_RESOURCE=$(ps aux --sort=-%mem | head -6 | tail -5 | awk '{printf "%-8s %-8s %-8s %s\n",$2,$3,$4,$11}')
-    echo "========== Top 5 Memory Processes =========="
+    echo "    Top 5 Memory Processes      "
     echo
     echo "PID      CPU%    MEM%    COMMAND"
     echo "--------------------------------"
     echo "$TOP5_RESOURCE"
 }
 
-check_Top5_Resource_Consuming_Processes
+check_top_processes
 
+echo 
+echo "Health Monitor Checkup Completed"
 
 
 
