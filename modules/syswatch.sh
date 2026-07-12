@@ -9,9 +9,10 @@ echo "    DISK USAGE   "
 echo
 
 initialize_variables(){
-    source ../config/syspilot.conf
+    CONFIG_FILE="/home/kirti/Projects/SysPilot/config/syspilot.conf"
+    LOG_FILE="/home/kirti/Projects/SysPilot/logs/syswatch.log"
+    source "$CONFIG_FILE"
     CURRENT_DATE=$(date "+%Y-%m-%d %I:%M:%S %p")
-    LOG_FILE=../logs/syswatch.log
 }
 
 check_disk_usage(){
