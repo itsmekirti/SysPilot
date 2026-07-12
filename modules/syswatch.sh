@@ -57,9 +57,12 @@ check_CPU_load(){
    fi
 }
 check_Top5_Resource_Consuming_Processes(){
-    TOP5_RESOURCE=$(ps aux --sort=-%mem | head -6)
-
-    echo $TOP5_RESOURCE
+    TOP5_RESOURCE=$(ps aux --sort=-%mem | head -6 | tail -5 | awk '{printf "%-8s %-8s %-8s %s\n",$2,$3,$4,$11}')
+    echo "========== Top 5 Memory Processes =========="
+    echo
+    echo "PID      CPU%    MEM%    COMMAND"
+    echo "--------------------------------"
+    echo "$TOP5_RESOURCE"
 }
 
 check_Top5_Resource_Consuming_Processes
