@@ -19,4 +19,10 @@ check_disk_usage(){
 }
 check_disk_usage
 
+check_memory_usage(){
+    MEMORY_USAGE=$(free -m | grep Mem | awk '{printf "%.0f\n", ($3/$2)*100}')
+
+    echo $MEMORY_USAGE%
+}
+check_memory_usage
 
