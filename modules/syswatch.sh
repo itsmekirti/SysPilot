@@ -1,5 +1,5 @@
 #!/bin/bash
-common_variable(){
+initialize_variables(){
     source ../config/syspilot.conf
     CURRENT_DATE=$(date "+%Y-%m-%d %I:%M:%S %p")
     LOG_FILE=../logs/syswatch.log
@@ -8,7 +8,7 @@ common_variable(){
 check_disk_usage(){
     DISK_USAGE=$(df -h | grep dev | awk '{print $5}')
     DISK_USAGE=${DISK_USAGE%\%}
-    common_variable
+    initialize_variables
 
     if [ $DISK_USAGE -gt $DISK_THRESHOLD ]
     then
@@ -25,7 +25,7 @@ check_disk_usage
 
 check_memory_usage(){
     MEMORY_USAGE=$(free -m | grep Mem | awk '{printf "%.0f\n", ($3/$2)*100}')
-    common_variable
+    initialize_variables
 
     if [ $MEMORY_USAGE -gt $MEM_THRESHOLD ]
     then
