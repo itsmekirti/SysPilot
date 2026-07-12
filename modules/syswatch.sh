@@ -2,7 +2,7 @@
 check_disk_usage(){
     DISK_USAGE=$(df -h | grep dev | awk '{print $5}')
     DISK_USAGE=${DISK_USAGE%\%}
-    DISK_THRESHOLD=80
+    source ../config/syspilot.conf
     LOG_FILE=../logs/syswatch.log
     CURRENT_DATE=$(date "+%Y-%m-%d %I:%M:%S %p")
 
@@ -10,6 +10,7 @@ check_disk_usage(){
     then
         echo ""$CURRENT_DATE" [WARN] "$DISK_USAGE%" THRESHOLD "$DISK_THRESHOLD"" >> "$LOG_FILE"
     else
+        echo "ok"
         echo ""$CURRENT_DATE" [OK] "$DISK_USAGE%" THRESHOLD "$DISK_THRESHOLD"" >> "$LOG_FILE"
     fi
 }
