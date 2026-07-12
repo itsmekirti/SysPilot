@@ -4,7 +4,7 @@ check_disk_usage(){
     DISK_USAGE=${DISK_USAGE%\%}
     DISK_THRESHOLD=80
     LOG_FILE=../logs/syswatch.log
-    CURRENT_DATE=$(date "+%Y-%m-%d %H:%M:%S")
+    CURRENT_DATE=$(date "+%Y-%m-%d %I:%M:%S %p")
 
     if [ $DISK_USAGE -gt $DISK_THRESHOLD ]
     then
