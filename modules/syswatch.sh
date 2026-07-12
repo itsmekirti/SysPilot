@@ -51,12 +51,19 @@ check_CPU_load(){
         echo "CPU Usage: $CPU_USAGE%"
         echo "Status: WARN" 
     else
-        echo "$CURRENT_DATE [WARN] CPU Usage $CPU_USAGE% | Threshold $CPU_THRESHOLD%" >> $LOG_FILE
+        echo "$CURRENT_DATE [OK] CPU Usage $CPU_USAGE% | Threshold $CPU_THRESHOLD%" >> $LOG_FILE
         echo "CPU Usage: $CPU_USAGE%"
         echo "Status: OK"
-    fi
+   fi
 }
-check_CPU_load
+check_Top5_Resource_Consuming_Processes(){
+    TOP5_RESOURCE=$(ps aux --sort=-%mem | head -6)
+
+    echo $TOP5_RESOURCE
+}
+
+check_Top5_Resource_Consuming_Processes
+
 
 
 
