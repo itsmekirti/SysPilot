@@ -102,3 +102,12 @@ OK
 2026-07-12 11:35:01 PM [OK] Disk Usage 1% | Threshold 80%
 2026-07-12 11:35:01 PM [OK] Memory Usage 29% | Threshold 85%
 2026-07-12 11:35:01 PM [OK] CPU Usage 5% | Threshold 90%
+2026-07-12 11:40:01 PM [OK] Disk Usage 1% | Threshold 80%
+2026-07-12 11:40:01 PM [OK] Memory Usage 28% | Threshold 85%
+2026-07-12 11:40:01 PM [OK] CPU Usage 5% | Threshold 90%
+2026-07-13 10:30:02 PM [OK] Disk Usage 1% | Threshold 80%
+2026-07-13 10:30:02 PM [OK] Memory Usage 22% | Threshold 85%
+2026-07-13 10:30:02 PM [OK] CPU Usage 42% | Threshold 90%
+2026-07-13 10:35:01 PM [OK] Disk Usage 1% | Threshold 80%
+2026-07-13 10:35:01 PM [OK] Memory Usage 20% | Threshold 85%
+2026-07-13 10:35:01 PM [OK] CPU Usage 10% | Threshold 90%
