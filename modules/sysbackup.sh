@@ -1,0 +1,2 @@
+BACKUP_TIMESTAMP=$(date "+%Y-%m-%d-%H%M")
+echo $BACKUP_TIMESTAMP
