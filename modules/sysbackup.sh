@@ -35,3 +35,11 @@ fi
 OLDEST_BACKUP=$(ls -tr ../backups | head -1)
 BACKUP_KEEP=7
 
+Total_bacups=$(ls ../backups | wc -l)
+if [ $Total_bacups -gt $BACKUP_KEEP ]
+then
+    rm "$BACKUP_DEST/$OLDEST_BACKUP"
+    echo "Oldest Backup File is removed"
+else
+    echo "Backup files is less than 7"
+fi
