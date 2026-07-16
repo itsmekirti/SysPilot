@@ -1,0 +1,4 @@
+hello
+i m kirti
+i m makking linux project
+echo "first=$1"

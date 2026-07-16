@@ -1,10 +1,9 @@
-initialize_variable(){
+initialize_variable() {
+    source ../config/syspilot.conf
+
     BACKUP_TIMESTAMP=$(date "+%Y-%m-%d-%H%M")
-    BACKUP_SOURCE=/home/kirti/Projects/SysPilot/test_data
     FOLDER_NAME=$(basename "$BACKUP_SOURCE")
-    BACKUP_DEST=/home/kirti/Projects/SysPilot/backups
-    BACKUP_NAME=backup-$FOLDER_NAME-$BACKUP_TIMESTAMP.tar.gz
-    BACKUP_KEEP=7
+    BACKUP_NAME="backup-$FOLDER_NAME-$BACKUP_TIMESTAMP.tar.gz"
 }
 
 restore_backup(){
