@@ -17,10 +17,12 @@ create_user(){
         sudo useradd -m -g "$DEFAULT_GROUP" "$USERNAME"
         if id "$USERNAME"
         then 
-            echo "user created successfully"
+            echo "user $USERNAME created successfully"
             sudo passwd "$USERNAME"
             sudo chage -d 0 "$USERNAME"
             sudo chage -M 90 "$USERNAME"
+            echo Password change required on first login.
+            echo Password expires after 90 days.
         else
             echo "user doesnt create. there is some issue"
         fi
