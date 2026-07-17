@@ -61,8 +61,56 @@ disable_user(){
         fi
     else
         echo "Error: $USERNAME doesn't exist."
-        echo "$CURRENT_TIMESTAMP | User: $USERNAME | Disabled Failed | User Not Found >> "$LOG_FILE"
-
+        echo "$CURRENT_TIMESTAMP | User: $USERNAME | Disabled Failed | User Not Found" >> "$LOG_FILE"
     fi
 }
 
+delete_user(){
+    initialize_variables
+    read -p "Enter User: " USERNAME
+    HOME_DIR=$(grep "^$USERNAME:" /etc/passwd | awk -F: '{print $6}')
+    BACKUP_TIMESTAMP=$(date "+%Y-%m-%d-%H%M")
+    BACKUP_DEST=/home/kirti/Projects/SysPilot/backups
+    FOLDER_NAME=$(basename "$HOME_DIR")
+    USER_BACKUP_NAME="backup-$FOLDER_NAME-$BACKUP_TIMESTAMP.tar.gz"
+    
+
+    if id "$USERNAME" >/dev/null 2>&1
+    then 
+        if [ -d "$HOME_DIR" ]
+        then
+            echo "$CURRENT_TIMESTAMP | User: $USERNAME | Directory exist" >> "$LOG_FILE"
+            if tar -tzf "$BACKUP_DEST/$USER_BACKUP_NAME" >/dev/null 2>&1
+            then
+                if [ -f "$BACKUP_DEST/$USER_BACKUP_NAME" ]
+                then 
+                    if tar -tzf "$BACKUP_DEST/$USER_BACKUP_NAME" > /dev/null
+                    then
+                        echo "User Backup is created successfully."
+                        echo "$CURRENT_TIMESTAMP | User: $USERNAME | User backup created | Backup: $USER_BACKUP_NAME" >> "$LOG_FILE"
+                        sudo userdel -r "$USERNAME"
+                        if id "$USERNAME" >/dev/null 2>&1
+                        then 
+                            echo "User $USERNAME still exist."
+                            echo "Error : $CURRENT_TIMESTAMP | User: $USERNAME | User still exists" >> "$LOG_FILE"
+                        else
+                            echo "User $USERNAME deleted successfully."
+                            echo "$CURRENT_TIMESTAMP | User: $USERNAME | User deleted successfully." >> "$LOG_FILE"
+                        fi
+                fi
+                else   
+                    echo "User Backup file is not found"
+                    echo "$CURRENT_TIMESTAMP | User: $USERNAME | Backup file is not found" >> "$LOG_FILE"
+                fi
+            else
+                echo "User backup is not created successfully."
+                eho "Error : $CURRENT_TIMESTAMP | User: $USERNAME | Backup creation failed " >> "$LOG_FILE"
+            fi
+        else
+            echo "$CURRENT_TIMESTAMP | User: $USERNAME | Directory doesn't exist" >> "$LOG_FILE"
+        fi
+    else
+        echo "Error: User $USERNAME doesn't exist."
+        echo "Error : $CURRENT_TIMESTAMP | User: $USERNAME | User Doesn't exist" >> "$LOG_FILE"
+    fi
+}
