@@ -28,3 +28,30 @@ create_user(){
         fi
     fi
 }
+create_user
+initialize_variables(){
+    CURRENT_TIMESTAMP=$(date "+Y%-%m-%d -%H:%M:%S")
+    LOG_FILE="/home/kirti/Projects/SysPilot/logs/sysusers.log"
+}
+disable_user(){
+    initialize_variables
+    read -p "Enter Username: " USERNAME
+
+    if id "$USERNAME"
+    then 
+        read -p "Enter Reason: " REASON
+        sudo usermod -L "$USERNAME"
+        STATUS=$(sudo passwd -S "$USERNAME" | awk '{print $2}')
+        if [ "$STATUS" = "L" ]
+        then 
+            echo "User: $USERNAME locked successfully."
+            sudo chage -E 0 "$USERNAME"
+            echo "$CURRENT_TIMESTAMP | User: $USERNAME | Disabled | Reason: $REASON" >> $LOG_FILE
+            echo "Successfully expired the $USERNAME account."
+        else
+            echo "$USERNAME" is not locked succefully. Please try again.
+        fi
+    else
+        echo "Error: $USERNAME doesn't exist."
+    fi
+}
