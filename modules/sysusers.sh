@@ -65,53 +65,87 @@ disable_user(){
     fi
 }
 
-delete_user(){
+delete_user() {
     initialize_variables
+
     read -p "Enter User: " USERNAME
+
     HOME_DIR=$(grep "^$USERNAME:" /etc/passwd | awk -F: '{print $6}')
     BACKUP_TIMESTAMP=$(date "+%Y-%m-%d-%H%M")
-    BACKUP_DEST=/home/kirti/Projects/SysPilot/backups
+    BACKUP_DEST="/home/kirti/Projects/SysPilot/backups"
     FOLDER_NAME=$(basename "$HOME_DIR")
     USER_BACKUP_NAME="backup-$FOLDER_NAME-$BACKUP_TIMESTAMP.tar.gz"
-    
 
     if id "$USERNAME" >/dev/null 2>&1
-    then 
+    then
         if [ -d "$HOME_DIR" ]
         then
-            echo "$CURRENT_TIMESTAMP | User: $USERNAME | Directory exist" >> "$LOG_FILE"
-            if tar -czf "$BACKUP_DEST/$USER_BACKUP_NAME" >/dev/null 
+            echo "$CURRENT_TIMESTAMP | User: $USERNAME | Directory exists" >> "$LOG_FILE"
+
+            mkdir -p "$BACKUP_DEST"
+
+            if tar -czf "$BACKUP_DEST/$USER_BACKUP_NAME" "$HOME_DIR" >/dev/null 2>&1
             then
                 if [ -f "$BACKUP_DEST/$USER_BACKUP_NAME" ]
-                then 
-                    if tar -tzf "$BACKUP_DEST/$USER_BACKUP_NAME" > /dev/null 2>&1
+                then
+                    if tar -tzf "$BACKUP_DEST/$USER_BACKUP_NAME" >/dev/null 2>&1
                     then
-                        echo "User Backup is created successfully."
-                        echo "$CURRENT_TIMESTAMP | User: $USERNAME | User backup created | Backup: $USER_BACKUP_NAME" >> "$LOG_FILE"
+                        echo "User backup created successfully."
+                        echo "$CURRENT_TIMESTAMP | User: $USERNAME | Backup created | Backup: $USER_BACKUP_NAME" >> "$LOG_FILE"
+
                         sudo userdel -r "$USERNAME"
+
                         if id "$USERNAME" >/dev/null 2>&1
-                        then 
-                            echo "User $USERNAME still exist."
-                            echo "Error : $CURRENT_TIMESTAMP | User: $USERNAME | User still exists" >> "$LOG_FILE"
+                        then
+                            echo "User $USERNAME still exists."
+                            echo "Error: $CURRENT_TIMESTAMP | User: $USERNAME | User still exists" >> "$LOG_FILE"
                         else
                             echo "User $USERNAME deleted successfully."
                             echo "$CURRENT_TIMESTAMP | User: $USERNAME | User deleted successfully." >> "$LOG_FILE"
                         fi
+                    else
+                        echo "Backup archive verification failed."
+                        echo "Error: $CURRENT_TIMESTAMP | User: $USERNAME | Backup archive verification failed." >> "$LOG_FILE"
                     fi
-                fi
-                else   
-                    echo "User Backup file is not found"
-                    echo "$CURRENT_TIMESTAMP | User: $USERNAME | Backup file is not found" >> "$LOG_FILE"
+                else
+                    echo "Backup file not found."
+                    echo "Error: $CURRENT_TIMESTAMP | User: $USERNAME | Backup file not found." >> "$LOG_FILE"
                 fi
             else
-                echo "User backup is not created successfully."
-                echo "Error : $CURRENT_TIMESTAMP | User: $USERNAME | Backup creation failed " >> "$LOG_FILE"
+                echo "User backup creation failed."
+                echo "Error: $CURRENT_TIMESTAMP | User: $USERNAME | Backup creation failed." >> "$LOG_FILE"
             fi
         else
-            echo "$CURRENT_TIMESTAMP | User: $USERNAME | Directory doesn't exist" >> "$LOG_FILE"
+            echo "Home directory doesn't exist."
+            echo "Error: $CURRENT_TIMESTAMP | User: $USERNAME | Home directory doesn't exist." >> "$LOG_FILE"
         fi
     else
         echo "Error: User $USERNAME doesn't exist."
-        echo "Error : $CURRENT_TIMESTAMP | User: $USERNAME | User Doesn't exist" >> "$LOG_FILE"
+        echo "Error: $CURRENT_TIMESTAMP | User: $USERNAME | User doesn't exist." >> "$LOG_FILE"
     fi
+}
+
+audit_mode(){
+    initialize_variables
+    AUDIT_TIMESTAMP=$(date "+%Y-%m-%d-%H%M%S")
+    AUDIT_DIR="/home/kirti/Projects/SysPilot/audit"
+    AUDIT_REPORT="/home/kirti/Projects/SysPilot/audit/audit-report-$AUDIT_TIMESTAMP.txt"
+    mkdir -p "$AUDIT_DIR"
+    touch "$AUDIT_REPORT"
+    awk -F: '$2=="" {print $1}' /etc/shadow | while read -r USERNAME
+    do
+        echo "========== Empty Password Users =========="
+        echo "$CURRENT_TIMESTAMP | User: $USERNAME | Empty Password" >> "$AUDIT_REPORT"
+    done
+    UID0_COUNT=$(awk -F: '$3==0 {print $1}' /etc/passwd | wc -l)
+    if [ "$UID0_COUNT" -gt 1 ]
+    then
+        awk -F: '$3==0 {print $1}' /etc/passwd | while read -r USERNAME
+        do
+            echo "==========Report any duplicate UID 0 accounts =========="
+            echo "$CURRENT_TIMESTAMP | User: $USERNAME | Duplicate UID 0 Accounts" >> "$AUDIT_REPORT"
+        done
+    fi
+    
+
 }
