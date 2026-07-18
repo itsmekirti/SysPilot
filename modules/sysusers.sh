@@ -1,3 +1,5 @@
+#!/bin/bash
+
 initialize_variables(){
     source ../config/syspilot.conf
     CURRENT_TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")

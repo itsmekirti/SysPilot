@@ -1,3 +1,5 @@
+#!/bin/bash
+
 initialize_variable() {
     source ../config/syspilot.conf
 
