@@ -1,14 +1,30 @@
 #!/bin/bash
+REPORT_GENERATION_PATH="/var/log/syspilot"
+REPORT_NAME="report-$(date +%Y-%m-%d).txt"
+REPORT_FILE="$REPORT_GENERATION_PATH/$REPORT_NAME"
 
 failed_ssh_analysis() {
     echo "===== Top 10 Attacking IPs ====="
     SSH_ANALYSIS_PATH="/var/log/auth.log"
-    sudo grep "sshd-session\[.*\]: Failed password" "$SSH_ANALYSIS_PATH" | awk '{print $9 }' | sort | uniq -c | sort -rn | head -n 10 
+    sudo grep "sshd-session\[.*\]: Failed password" "$SSH_ANALYSIS_PATH" |
+    awk '{
+        if ($7 == "invalid")
+            print $11
+        else
+            print $9
+    }' | sort | uniq -c | sort -rn | head -n 10 
     echo "===== Top 10 usernames attempted ====="
-    sudo grep "sshd-session\[.*\]: Failed password" "$SSH_ANALYSIS_PATH" | awk '{print $7}' | sort | uniq -c | sort -rn | head -n 10 
-} 
-failed_ssh_analysis
+    sudo grep "sshd-session\[.*\]: Failed password" "$SSH_ANALYSIS_PATH" | 
+    awk '{
+        if ($7 == "invalid")
+            print $9
+        else
+            print $7
+    }' | sort | uniq -c | sort -rn | head -n 10 
+    } 
+
 system_error_analysis(){
+    
     SYSTEM_ERROR_PATH="/var/log/syslog"
     echo "===== error frequency by hour ====="
     echo "hour count"
@@ -32,17 +48,13 @@ successful_logins(){
     }'
 }
 
-check_report_directory(){
-    REPORT_GENERATION_PATH="/var/log/syspilot"
-    REPORT_NAME="report-$(date +%Y-%m-%d).txt"
-    REPORT_FILE="$REPORT_GENERATION_PATH"/"$REPORT_NAME"
-    if [ -d "$REPORT_GENERATION_PATH" ]
-    then 
-        echo "directory exist"
-    else
+check_report_directory() {
+    if [ ! -d "$REPORT_GENERATION_PATH" ]
+    then
         sudo mkdir -p "$REPORT_GENERATION_PATH"
     fi
 }
+
 generate_report(){
     check_report_directory
     echo "========================================="
@@ -68,4 +80,6 @@ generate_report(){
     successful_logins
     echo
 }
-generate_report
+generate_report | tee  "$REPORT_FILE"
+
+
