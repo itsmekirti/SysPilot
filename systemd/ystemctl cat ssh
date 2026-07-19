@@ -1,0 +1,23 @@
+[0;1;34m# ]8;;file://DESKTOP-KEMA9PL/usr/lib/systemd/system/ssh.service\/usr/lib/systemd/system/ssh.service]8;;\[0m
+[0;1;36m[Unit][0m
+[0;1;32mDescription=[0mOpenBSD Secure Shell server
+[0;1;32mDocumentation=[0mman:sshd(8) man:sshd_config(5)
+[0;1;32mAfter=[0mnetwork.target nss-user-lookup.target auditd.service
+[0;1;32mConditionPathExists=[0m!/etc/ssh/sshd_not_to_be_run
+
+[0;1;36m[Service][0m
+[0;1;32mEnvironmentFile=[0m-/etc/default/ssh
+[0;1;32mExecStartPre=[0m/usr/sbin/sshd -t
+[0;1;32mExecStart=[0m/usr/sbin/sshd -D $SSHD_OPTS
+[0;1;32mExecReload=[0m/usr/sbin/sshd -t
+[0;1;32mExecReload=[0m/bin/kill -HUP $MAINPID
+[0;1;32mKillMode=[0mprocess
+[0;1;32mRestart=[0mon-failure
+[0;1;32mRestartPreventExitStatus=[0m255
+[0;1;32mType=[0mnotify
+[0;1;32mRuntimeDirectory=[0msshd
+[0;1;32mRuntimeDirectoryMode=[0m0755
+
+[0;1;36m[Install][0m
+[0;1;32mWantedBy=[0mmulti-user.target
+[0;1;32mAlias=[0msshd.service
