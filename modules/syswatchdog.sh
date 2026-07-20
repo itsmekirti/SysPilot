@@ -1,10 +1,10 @@
 #!/bin/bash
+initialize_variable() {
 
-LOG_DIR="/var/log/syspilot"
-LOG_FILE="$LOG_DIR/watchdog.log"
-
-SERVICES=("ssh" "cron" "syspilot-demo.service")
-
+    CONFIG_FILE="/home/kirti/Projects/SysPilot/config/syspilot.conf"
+    source "$CONFIG_FILE"
+}
+initialize_variable
 mkdir -p "$LOG_DIR"
 
 for SERVICE in "${SERVICES[@]}"
@@ -32,7 +32,7 @@ do
             echo "CRITICAL: $SERVICE restarted more than 3 times in the last hour."
 
             echo "$(date '+%Y-%m-%d %H:%M:%S') : CRITICAL - $SERVICE restarted more than 3 times in the last hour." \
-            | sudo tee -a "$LOG_FILE" > /dev/null
+            | sudo tee -a "$LOG_FILES" > /dev/null
 
             continue
         fi
@@ -55,7 +55,7 @@ do
             echo "Restart failed."
 
             echo "$(date '+%Y-%m-%d %H:%M:%S') : Failed to restart $SERVICE." \
-            | sudo tee -a "$LOG_FILE" > /dev/null
+            | sudo tee -a "$LOG_FILES" > /dev/null
         fi
     fi
 done

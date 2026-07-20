@@ -1,12 +1,12 @@
 #!/bin/bash
 
 initialize_variables(){
-    source ../config/syspilot.conf
+    CONFIG_FILE="/home/kirti/Projects/SysPilot/config/syspilot.conf"
+    source "$CONFIG_FILE"
     CURRENT_TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
-    LOG_FILE="/home/kirti/Projects/SysPilot/logs/sysusers.log"
     AUDIT_TIMESTAMP=$(date "+%Y-%m-%d-%H%M%S")
-    AUDIT_DIR="/home/kirti/Projects/SysPilot/audit"
-    AUDIT_REPORT="/home/kirti/Projects/SysPilot/audit/audit-report-$AUDIT_TIMESTAMP.txt"
+    AUDIT_REPORT="$AUDIT_DIR/audit-report-$AUDIT_TIMESTAMP.txt"
+    
 }
 
 create_user(){
